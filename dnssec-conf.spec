@@ -4,7 +4,8 @@ Version:	1.20
 Release:	%mkrel 2
 License:	GPLv2+
 URL:		http://www.xelerance.com/software/dnssec-conf/
-Source:		http://www.xelerance.com/software/%{name}/%{name}-%{version}.tar.gz
+Source0:	http://www.xelerance.com/software/%{name}/%{name}-%{version}.tar.gz
+Patch0:		dnssec-conf-1.20-borked_xml.diff
 Group:		System/Servers
 BuildArch:	noarch
 Buildrequires:	xmlto
@@ -27,6 +28,7 @@ See also: system-config-dnssec
 %prep
 
 %setup -q -n %{name}-%{version}
+%patch0 -p0
 
 %build
 make
