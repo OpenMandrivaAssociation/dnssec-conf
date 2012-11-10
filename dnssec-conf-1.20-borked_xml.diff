@@ -1,0 +1,15 @@
+--- Makefile	2009-03-17 17:55:41.000000000 +0100
++++ Makefile.oden	2009-10-04 19:20:27.000000000 +0200
+@@ -13,10 +13,10 @@
+ manpages: dnskey-pull.1 dnssec-configure.8
+ 
+ dnskey-pull.1:
+-	xmlto man dnskey-pull.1.xml
++	xmlto --skip-validation man dnskey-pull.1.xml
+ 
+ dnssec-configure.8:
+-	xmlto man dnssec-configure.8.xml
++	xmlto --skip-validation man dnssec-configure.8.xml
+ 
+ clean:
+ 	rm -f *.1 *.8
