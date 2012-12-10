@@ -13,7 +13,6 @@ Requires:	python-dns
 Requires:	curl
 #Requires: a caching nameserver
 #Requires bind 9.4.0 if bind is reconfigured.....
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 DNSSEC configuration and priming tool. Keys are required until the root
@@ -34,8 +33,6 @@ See also: system-config-dnssec
 make
 
 %install
-rm -rf %{buildroot}
-
 %makeinstall_std \
     PREFIX=%{_prefix} \
     ETCDIR=%{buildroot}%{_sysconfdir} \
@@ -52,16 +49,11 @@ install -m0644 packaging/fedora/dnssec.sysconfig %{buildroot}%{_sysconfdir}/sysc
 sed -i 's|#DLV="dlv.isc.org"|DLV="dlv.isc.org"|' %{buildroot}%{_sysconfdir}/sysconfig/dnssec
 sed -i 's|DLV="off"|#DLV="off"|' %{buildroot}%{_sysconfdir}/sysconfig/dnssec
 
-%clean
-rm -rf %{buildroot}
-
 %files 
-%defattr(-,root,root)
 %doc LICENSE README INSTALL
 %attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/pki/dnssec-keys/*/*
 %attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/production
-%attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/production/reverse
 %attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/testing
 %attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/harvest
 %attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/dlv
@@ -69,4 +61,3 @@ rm -rf %{buildroot}
 %{_bindir}/dnskey-pull
 %{_sbindir}/dnssec-configure
 %{_mandir}/*/*
-
