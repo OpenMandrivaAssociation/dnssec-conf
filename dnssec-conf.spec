@@ -1,18 +1,19 @@
 Summary:	DNSSEC and DLV configuration and priming tool
 Name:		dnssec-conf
-Version:	1.22
-Release:	%mkrel 2
+Version:	2.02
+Release:	1
 License:	GPLv2+
-URL:		http://www.xelerance.com/software/dnssec-conf/
+Group:		System/Servers
+Url:		http://www.xelerance.com/software/dnssec-conf/
 Source0:	http://www.xelerance.com/software/%{name}/%{name}-%{version}.tar.gz
 Patch0:		dnssec-conf-1.20-borked_xml.diff
-Group:		System/Servers
-BuildArch:	noarch
-Buildrequires:	xmlto
-Requires:	python-dns
+BuildRequires:	docbook-style-xsl
+BuildRequires:	xmlto
 Requires:	curl
+Requires:	python-dns
 #Requires: a caching nameserver
 #Requires bind 9.4.0 if bind is reconfigured.....
+BuildArch:	noarch
 
 %description
 DNSSEC configuration and priming tool. Keys are required until the root
@@ -24,8 +25,21 @@ Unbound, known DNSSEC keys, URL's to official publication pages of keys,
 and harvested keys, as well a script to harvest DNSKEY's from DNS.
 See also: system-config-dnssec
 
-%prep
+%files
+%doc LICENSE README INSTALL
+%attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys
+%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/pki/dnssec-keys/*/*
+%attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/production
+%attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/harvest
+%attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/dlv
+%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/dnssec
+%{_bindir}/dnskey-pull
+%{_sbindir}/dnssec-configure
+%{_mandir}/*/*
 
+#----------------------------------------------------------------------------
+
+%prep
 %setup -q -n %{name}-%{version}
 %patch0 -p0
 
@@ -49,15 +63,3 @@ install -m0644 packaging/fedora/dnssec.sysconfig %{buildroot}%{_sysconfdir}/sysc
 sed -i 's|#DLV="dlv.isc.org"|DLV="dlv.isc.org"|' %{buildroot}%{_sysconfdir}/sysconfig/dnssec
 sed -i 's|DLV="off"|#DLV="off"|' %{buildroot}%{_sysconfdir}/sysconfig/dnssec
 
-%files 
-%doc LICENSE README INSTALL
-%attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/pki/dnssec-keys/*/*
-%attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/production
-%attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/testing
-%attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/harvest
-%attr(0755,root,root) %dir %{_sysconfdir}/pki/dnssec-keys/dlv
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/dnssec
-%{_bindir}/dnskey-pull
-%{_sbindir}/dnssec-configure
-%{_mandir}/*/*
