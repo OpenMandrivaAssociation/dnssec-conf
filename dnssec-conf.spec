@@ -4,7 +4,7 @@ Version:	2.02
 Release:	2
 License:	GPLv2+
 Group:		System/Servers
-Url:		http://www.xelerance.com/software/dnssec-conf/
+Url:		https://www.xelerance.com/software/dnssec-conf/
 Source0:	http://www.xelerance.com/software/%{name}/%{name}-%{version}.tar.gz
 Patch0:		dnssec-conf-1.20-borked_xml.diff
 BuildRequires:	docbook-style-xsl
