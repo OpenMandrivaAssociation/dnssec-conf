@@ -7,6 +7,7 @@ Group:		System/Servers
 Url:		https://www.xelerance.com/software/dnssec-conf/
 Source0:	http://www.xelerance.com/software/%{name}/%{name}-%{version}.tar.gz
 Patch0:		dnssec-conf-1.20-borked_xml.diff
+BuildRequires:	make
 BuildRequires:	docbook-style-xsl
 BuildRequires:	xmlto
 Requires:	curl
